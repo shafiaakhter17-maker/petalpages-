@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Little Notes 🌷</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #fff7f8;
+    --sidebar: #fffafa;
+    --text: #57444d;
+    --muted: #9b7d87;
+    --pink: #f58fa1;
+    --pink-light: #ffe1e7;
+    --white: #ffffff;
+    --border: #f0dce2;
+    --shadow: 0 8px 25px rgba(120, 75, 95, 0.10);
+}
+
+body.dark {
+    --bg: #211d25;
+    --sidebar: #29242e;
+    --text: #f4e8ee;
+    --muted: #b9a5b0;
+    --pink: #f28fa8;
+    --pink-light: #49313d;
+    --white: #302a35;
+    --border: #4b404d;
+    --shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Nunito", sans-serif;
+    transition: 0.3s;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 235px;
+    height: 100vh;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 35px 20px;
+}
+
+.logo {
+    font-family: "Caveat", cursive;
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+.tagline {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 35px;
+}
+
+.menu-title {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin: 25px 10px 10px;
+}
+
+.menu button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 5px;
+    font-family: inherit;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.menu button:hover,
+.menu button.active {
+    background: var(--pink-light);
+}
+
+.quote-box {
+    position: absolute;
+    bottom: 30px;
+    left: 20px;
+    right: 20px;
+    padding: 18px;
+    border-radius: 18px;
+    background: var(--pink-light);
+    font-family: "Caveat", cursive;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 235px;
+    padding: 35px 45px;
+    min-height: 100vh;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.welcome h1 {
+    font-family: "Caveat", cursive;
+    font-size: 42px;
+    margin: 0;
+}
+
+.welcome p {
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search {
+    width: 260px;
+    padding: 13px 18px;
+    border-radius: 30px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    font-family: inherit;
+}
+
+.icon-btn {
+    width: 45px;
+    height: 45px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.new-note {
+    border: none;
+    background: var(--pink);
+    color: white;
+    padding: 13px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 700;
+}
+
+/* CATEGORY BAR */
+
+.categories {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 30px 0 20px;
+}
+
+.category {
+    white-space: nowrap;
+    padding: 9px 15px;
+    border-radius: 25px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.category:hover,
+.category.selected {
+    background: var(--pink-light);
+}
+
+/* NOTES */
+
+.notes-grid {
+    columns: 3 250px;
+    column-gap: 20px;
+}
+
+.note {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    padding: 23px;
+    border-radius: 20px;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.note:hover {
+    transform: translateY(-5px);
+}
+
+.note:nth-child(3n+1) {
+    background: #fff0f3;
+}
+
+.note:nth-child(3n+2) {
+    background: #f7effa;
+}
+
+.note:nth-child(3n+3) {
+    background: #fff7df;
+}
+
+body.dark .note:nth-child(3n+1),
+body.dark .note:nth-child(3n+2),
+body.dark .note:nth-child(3n+3) {
+    background: var(--white);
+}
+
+.note h2 {
+    font-family: "Caveat", cursive;
+    font-size: 27px;
+    margin: 12px 0;
+}
+
+.note p {
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.note-date {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 18px;
+}
+
+.note-category {
+    display: inline-block;
+    background: rgba(255,255,255,0.65);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+.favorite {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.note-buttons {
+    display: flex;
+    gap: 7px;
+    margin-top: 15px;
+}
+
+.note-buttons button {
+    border: none;
+    padding: 7px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.edit {
+    background: #eee5f5;
+}
+
+.delete {
+    background: #f7dddd;
+}
+
+/* EMPTY */
+
+.empty {
+    text-align: center;
+    padding: 70px 20px;
+    color: var(--muted);
+}
+
+.empty-icon {
+    font-size: 55px;
+}
+
+/* MODAL */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(40,25,35,0.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 10;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 500px;
+    background: var(--white);
+    border-radius: 25px;
+    padding: 30px;
+}
+
+.modal-box h2 {
+    font-family: "Caveat", cursive;
+    font-size: 32px;
+    margin-top: 0;
+}
+
+.modal-box input,
+.modal-box textarea,
+.modal-box select {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    outline: none;
+}
+
+.modal-box textarea {
+    height: 180px;
+    resize: vertical;
+}
+
+.save {
+    background: var(--pink);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.cancel {
+    background: #eee;
+    color: #666;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+/* MOBILE */
+
+@media(max-width: 800px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 25px 18px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .welcome h1 {
+        font-size: 36px;
+    }
+
+    .header-actions {
+        flex-wrap: wrap;
+    }
+
+    .search {
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .notes-grid {
+        columns: 1;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        My Little Notes 🌷
+    </div>
+
+    <div class="tagline">
+        a little space for your thoughts ✨
+    </div>
+
+    <div class="menu">
+
+        <div class="menu-title">Menu</div>
+
+        <button class="active" onclick="showAll()">
+            🏠 Home
+        </button>
+
+        <button onclick="showAll()">
+            📝 All Notes
+        </button>
+
+        <button onclick="showFavorites()">
+            ⭐ Favorites
+        </button>
+
+        <div class="menu-title">Categories</div>
+
+        <button onclick="filterCategory('School')">
+            📚 School
+        </button>
+
+        <button onclick="filterCategory('Personal')">
+            ♡ Personal
+        </button>
+
+        <button onclick="filterCategory('Ideas')">
+            💡 Ideas
+        </button>
+
+        <button onclick="filterCategory('To-Do')">
+            ☑️ To-Do
+        </button>
+
+        <button onclick="filterCategory('Quotes')">
+            💬 Quotes
+        </button>
+
+        <button onclick="filterCategory('Journal')">
+            📖 Journal
+        </button>
+
+    </div>
+
+    <div class="quote-box">
+        Little by little,<br>
+        a little becomes a lot. 🌱
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <div class="header">
+
+        <div class="welcome">
+
+            <h1>Hello, note maker ✨</h1>
+
+            <p>
+                Your thoughts deserve a pretty place.
+            </p>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <input
+                id="search"
+                class="search"
+                placeholder="🔍 Search your notes..."
+                oninput="displayNotes()"
+            >
+
+            <button
+                class="icon-btn"
+                onclick="toggleDark()"
+                title="Dark mode"
+            >
+                🌙
+            </button>
+
+            <button
+                class="new-note"
+                onclick="openModal()"
+            >
+                + New Note
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- CATEGORY BUTTONS -->
+
+    <div class="categories">
+
+        <button
+            class="category selected"
+            onclick="showAll()">
+            ✨ All
+        </button>
+
+        <button
+            class="category"
+            onclick="filterCategory('School')">
+            📚 School
+        </button>
+
+        <button
+            class="category"
+            onclick="filterCategory('Personal')">
+            ♡ Personal
+        </button>
+
+        <button
+            class="category"
+            onclick="filterCategory('Ideas')">
+            💡 Ideas
+        </button>
+
+        <button
+            class="category"
+            onclick="filterCategory('To-Do')">
+            ☑️ To-Do
+        </button>
+
+        <button
+            class="category"
+            onclick="filterCategory('Quotes')">
+            💬 Quotes
+        </button>
+
+        <button
+            class="category"
+            onclick="filterCategory('Journal')">
+            📖 Journal
+        </button>
+
+    </div>
+
+
+    <!-- NOTES -->
+
+    <div id="notes" class="notes-grid"></div>
+
+
+    <div id="empty" class="empty">
+
+        <div class="empty-icon">
+            🌷
+        </div>
+
+        <h2>No notes yet</h2>
+
+        <p>
+            Create your first little note!
+        </p>
+
+        <button
+            class="new-note"
+            onclick="openModal()">
+            + Create a Note
+        </button>
+
+    </div>
+
+</main>
+
+
+<!-- CREATE NOTE MODAL -->
+
+<div id="modal" class="modal">
+
+    <div class="modal-box">
+
+        <h2>✨ Create a little note</h2>
+
+        <input
+            id="title"
+            type="text"
+            placeholder="Give your note a title..."
+        >
+
+        <select id="category">
+
+            <option value="School">
+                📚 School
+            </option>
+
+            <option value="Personal">
+                ♡ Personal
+            </option>
+
+            <option value="Ideas">
+                💡 Ideas
+            </option>
+
+            <option value="To-Do">
+                ☑️ To-Do
+            </option>
+
+            <option value="Quotes">
+                💬 Quotes
+            </option>
+
+            <option value="Journal">
+                📖 Journal
+            </option>
+
+        </select>
+
+        <textarea
+            id="content"
+            placeholder="Write whatever you want here... ✨"
+        ></textarea>
+
+        <button
+            class="save"
+            onclick="saveNote()">
+            Save Note 🌷
+        </button>
+
+        <button
+            class="cancel"
+            onclick="closeModal()">
+            Cancel
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let notes =
+JSON.parse(localStorage.getItem("littleNotes")) || [];
+
+let editingIndex = -1;
+
+let currentFilter = "All";
+
+
+/* OPEN MODAL */
+
+function openModal(index = -1) {
+
+    editingIndex = index;
+
+    document.getElementById("modal").style.display = "flex";
+
+    if (index >= 0) {
+
+        document.getElementById("title").value =
+            notes[index].title;
+
+        document.getElementById("category").value =
+            notes[index].category;
+
+        document.getElementById("content").value =
+            notes[index].content;
+
+    } else {
+
+        document.getElementById("title").value = "";
+
+        document.getElementById("content").value = "";
+
+        document.getElementById("category").value =
+            "School";
+
+    }
+
+}
+
+
+/* CLOSE MODAL */
+
+function closeModal() {
+
+    document.getElementById("modal").style.display = "none";
+
+}
+
+
+/* SAVE */
+
+function saveNote() {
+
+    let title =
+        document.getElementById("title").value.trim();
+
+    let category =
+        document.getElementById("category").value;
+
+    let content =
+        document.getElementById("content").value.trim();
+
+
+    if (!title || !content) {
+
+        alert("Please write a title and some content 🌷");
+
+        return;
+
+    }
+
+
+    let note = {
+
+        title: title,
+
+        category: category,
+
+        content: content,
+
+        favorite: false,
+
+        date: new Date().toLocaleDateString()
+
+    };
+
+
+    if (editingIndex === -1) {
+
+        notes.unshift(note);
+
+    } else {
+
+        note.favorite =
+            notes[editingIndex].favorite;
+
+        notes[editingIndex] = note;
+
+    }
+
+
+    localStorage.setItem(
+        "littleNotes",
+        JSON.stringify(notes)
+    );
+
+
+    closeModal();
+
+    displayNotes();
+
+}
+
+
+/* DISPLAY */
+
+function displayNotes() {
+
+    let container =
+        document.getElementById("notes");
+
+    let empty =
+        document.getElementById("empty");
+
+    let search =
+        document.getElementById("search").value.toLowerCase();
+
+
+    container.innerHTML = "";
+
+    let filtered = notes.filter(note => {
+
+        let matchesSearch =
+            note.title.toLowerCase().includes(search) ||
+            note.content.toLowerCase().includes(search) ||
+            note.category.toLowerCase().includes(search);
+
+        let matchesCategory =
+            currentFilter === "All" ||
+            note.category === currentFilter;
+
+        return matchesSearch && matchesCategory;
+
+    });
+
+
+    if (filtered.length === 0) {
+
+        empty.style.display = "block";
+
+        return;
+
+    }
+
+
+    empty.style.display = "none";
+
+
+    filtered.forEach(note => {
+
+        let originalIndex =
+            notes.indexOf(note);
+
+
+        let card =
+            document.createElement("div");
+
+        card.className = "note";
+
+
+        card.innerHTML = `
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(${originalIndex})">
+                ${note.favorite ? "⭐" : "☆"}
+            </button>
+
+            <span class="note-category">
+                ${getEmoji(note.category)}
+                ${note.category}
+            </span>
+
+            <h2>
+                ${escapeHTML(note.title)}
+            </h2>
+
+            <p>
+                ${escapeHTML(note.content)}
+            </p>
+
+            <div class="note-date">
+                ${note.date}
+            </div>
+
+            <div class="note-buttons">
+
+                <button
+                    class="edit"
+                    onclick="openModal(${originalIndex})">
+                    ✏️ Edit
+                </button>
+
+                <button
+                    class="delete"
+                    onclick="deleteNote(${originalIndex})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* EMOJIS */
+
+function getEmoji(category) {
+
+    let emojis = {
+
+        "School": "📚",
+
+        "Personal": "♡",
+
+        "Ideas": "💡",
+
+        "To-Do": "☑️",
+
+        "Quotes": "💬",
+
+        "Journal": "📖"
+
+    };
+
+    return emojis[category] || "📝";
+
+}
+
+
+/* FAVORITE */
+
+function toggleFavorite(index) {
+
+    notes[index].favorite =
+        !notes[index].favorite;
+
+    localStorage.setItem(
+        "littleNotes",
+        JSON.stringify(notes)
+    );
+
+    displayNotes();
+
+}
+
+
+/* DELETE */
+
+function deleteNote(index) {
+
+    if (
+        confirm("Are you sure you want to delete this note? 🌷")
+    ) {
+
+        notes.splice(index, 1);
+
+        localStorage.setItem(
+            "littleNotes",
+            JSON.stringify(notes)
+        );
+
+        displayNotes();
+
+    }
+
+}
+
+
+/* FILTER */
+
+function filterCategory(category) {
+
+    currentFilter = category;
+
+    displayNotes();
+
+}
+
+
+/* SHOW ALL */
+
+function showAll() {
+
+    currentFilter = "All";
+
+    displayNotes();
+
+}
+
+
+/* FAVORITES */
+
+function showFavorites() {
+
+    let container =
+        document.getElementById("notes");
+
+    let empty =
+        document.getElementById("empty");
+
+    container.innerHTML = "";
+
+    let favorites =
+        notes.filter(note => note.favorite);
+
+
+    if (favorites.length === 0) {
+
+        empty.style.display = "block";
+
+        return;
+
+    }
+
+
+    empty.style.display = "none";
+
+
+    favorites.forEach(note => {
+
+        let index = notes.indexOf(note);
+
+        let card =
+            document.createElement("div");
+
+        card.className = "note";
+
+        card.innerHTML = `
+
+            <button
+                class="favorite"
+                onclick="toggleFavorite(${index})">
+                ⭐
+            </button>
+
+            <span class="note-category">
+                ${getEmoji(note.category)}
+                ${note.category}
+            </span>
+
+            <h2>
+                ${escapeHTML(note.title)}
+            </h2>
+
+            <p>
+                ${escapeHTML(note.content)}
+            </p>
+
+            <div class="note-date">
+                ${note.date}
+            </div>
+
+            <div class="note-buttons">
+
+                <button
+                    class="edit"
+                    onclick="openModal(${index})">
+                    ✏️ Edit
+                </button>
+
+                <button
+                    class="delete"
+                    onclick="deleteNote(${index})">
+                    🗑️ Delete
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* DARK MODE */
+
+function toggleDark() {
+
+    document.body.classList.toggle("dark");
+
+    localStorage.setItem(
+        "darkMode",
+        document.body.classList.contains("dark")
+    );
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(text) {
+
+    let div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* START */
+
+if (
+    localStorage.getItem("darkMode") === "true"
+) {
+
+    document.body.classList.add("dark");
+
+}
+
+
+displayNotes();
+
+</script>
+
+</body>
+</html>
