@@ -1,0 +1,12 @@
+{
+  "name": "My Little Notes",
+  "short_name": "Little Notes",
+  "description": "A cute little space for your thoughts and notes.",
+  "id": "/aesthetic-study-notes/",
+  "start_url": "/aesthetic-study-notes/",
+  "scope": "/aesthetic-study-notes/",
+  "display": "standalone",
+  "background_color": "#fff7f8",
+  "theme_color": "#f58fa1",
+  "orientation": "portrait"
+}
